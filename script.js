@@ -56,6 +56,9 @@ const endGame = () => {
     <br>You Lost The Game ! :(</center><br>
     </center>
     `;
+    
+    restartGame();
+
 
 }
 
@@ -66,18 +69,32 @@ const winGame = () => {
     modal.style.display = "block";
     modalContent.classList.add("modal-correct");
     modalText.innerHTML = `<br><center>Congrats You WIN THE GAME !!!!!!`;
-    
+
+    restartGame();
+
+ 
 }
 
 const initGame = () => {
     initTimer(30);
-    let randomObj = words[Math.floor(Math.random() * words.length)];
+    const usedWords = new Set(); // New Set to track used words
+
+    let randomObj;
+    do {
+        randomObj = words[Math.floor(Math.random() * words.length)];
+    } while (usedWords.has(randomObj.word)); // Keep looping until unused word found
+
     let wordArray = randomObj.word.split("");
+
+    
+
     for (let i = wordArray.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
     }
     
+    //usedWords.add(randomObj.word); // Add the chosen word to the usedWords array
+
     wordText.innerText = wordArray.join("");
     hintText.innerText = randomObj.hint;
     correctWord = randomObj.word.toLowerCase();;
@@ -85,11 +102,14 @@ const initGame = () => {
     inputField.setAttribute("maxlength", correctWord.length);
     scoreArea.innerHTML = score;
 
+    usedWords.add(randomObj.word); // Add the chosen word to the usedWords array
+
     if(score > 9)
     {
         winGame();
     }
 
+    
 }
 
 
@@ -107,7 +127,7 @@ const checkWord = () => {
     if(userWord !== correctWord) { 
         if(score >= 1) {
             score = score - 1; 
-            scoreArea.innerHTML = score;
+            //scoreArea.innerHTML = score;
         }
         modal.style.display = "block";
         modalContent.classList.add("modal-wrong");
@@ -121,13 +141,28 @@ const checkWord = () => {
     modalText.innerHTML = `<br>Congrats! <b>${correctWord.toUpperCase()}</b> is the correct word`;
     score++;
     }
-  
-    initGame();
+    
+    scoreArea.innerHTML = score;
+
+    if (userWord !== correctWord) {
+        initGame();
+      }
 }
 
 refreshBtn.addEventListener("click", initGame);
 checkBtn.addEventListener("click", checkWord);
 
+function restartGame() { 
+    score = 0;   // Reset score to 0
+  
+    // Get references to score and lives elements
+    const scoreElement = document.getElementById("score-area");
+  
+    // Update text content of the elements
+    scoreElement.textContent = "Score: " + score-area;
+
+    initGame();
+  }
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
