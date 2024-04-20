@@ -1,0 +1,54 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: sans-serif;
+  min-height: 100vh;
+  background-image: url("6.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  position: absolute;
+  top: 100px;
+}
+
+h2 {
+  position: absolute;
+  top: 220px;
+  left: 33.5%;
+}
+
+#game-container {
+  position: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 600px; /* Set a fixed width for the container */
+}
+
+.word-box { 
+  margin: 5px;
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  /* Adjust width to fit 10 words comfortably */
+  width: calc(100% / 5);
+}
+
+.word-box span {
+  margin-right: 5px;  /* Reduce spacing between words for more words */
+}
+
+.word-box:hover {
+  background-color: #eee;
+}
